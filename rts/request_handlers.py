@@ -2,6 +2,8 @@ from django.http import HttpRequest
 
 
 class Handler(object):
+    serializer_class = None
+
     def __init__(self, **kwargs):
         # Go through keyword arguments, and either save their values to our
         # instance, or raise an error.
@@ -14,7 +16,7 @@ class Handler(object):
     def extract_data(self, request):
         raise NotImplementedError('.extract_data(request) must be implemented')
 
-    def data(self, request):
+    def get_object(self, request):
         # Make the error obvious if a proper response is not returned
         assert isinstance(request, HttpRequest), (
             'Expected a `HttpRequest`, but received a `%s`'
@@ -22,7 +24,10 @@ class Handler(object):
         )
 
         self.validate_request(request)
-        return self.extract_data(request)
+        data = self.extract_data(request)
+        obj = self.serializer_class().deserialize(data)
+
+        return obj
 
 
 class WebFormPostHandler(Handler):
