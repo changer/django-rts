@@ -1,8 +1,9 @@
 from django.http import HttpRequest
 
 
-class Handler(object):
+class RequestHandler(object):
     serializer_class = None
+    serializer_kwargs = {}
 
     def __init__(self, **kwargs):
         # Go through keyword arguments, and either save their values to our
@@ -25,12 +26,12 @@ class Handler(object):
 
         self.validate_request(request)
         data = self.extract_data(request)
-        obj = self.serializer_class().deserialize(data)
+        obj = self.serializer_class().deserialize(data, **self.serializer_kwargs)
 
         return obj
 
 
-class WebFormPostHandler(Handler):
+class WebFormPostRequestHandler(RequestHandler):
     field = 'data'
 
     def validate_request(self, request):
