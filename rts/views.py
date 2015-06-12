@@ -10,7 +10,7 @@ class RtsView(View):
     def dispatch(self, request, *args, **kwargs):
         request_handler = self.request_handler_class()
         transformer = self.transformer_class()
-        response_generator = self.response_generator_class()
+        response_generator = self.response_generator_class(request)
 
         obj = request_handler.get_object(request)
         obj = transformer.transform(obj)
