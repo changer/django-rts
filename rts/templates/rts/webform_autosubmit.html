@@ -5,10 +5,15 @@
     <title>RTS AutoSubmit</title>
 </head>
 <body>
-    <form method="{{ method }}" action="{{ action }}">
+    {% if intro_text %}
+    <p>{{ intro_text }}</p>
+    {% endif %}
+    <form method="{{ method }}" action="{{ action }}" name="autopost">
         <input type="hidden" name="{{ field }}" value="{{ data }}">
-        <button>Continue</button>
+        <button>{{ send_button_text }}</button>
     </form>
-
+    <script type="text/javascript">
+        document.forms['autopost'].submit()
+    </script>
 </body>
 </html>

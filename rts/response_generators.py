@@ -21,6 +21,8 @@ class WebFormAutoSubmitGenerator(TemplateResponseMixin, ResponseGenerator):
     method = 'POST'
     field = 'data'
     action = ''
+    intro_text = ''
+    send_button_text = 'Continue'
     template_name = 'rts/webform_autosubmit.html'
     response_class = TemplateResponse
 
@@ -30,7 +32,9 @@ class WebFormAutoSubmitGenerator(TemplateResponseMixin, ResponseGenerator):
             'field': self.field,
             'action': self.action,
             'method': self.method,
-            'data': data
+            'data': data,
+            'intro_text': self.intro_text,
+            'send_button_text': self.send_button_text,
         }
 
         return context
